@@ -1,0 +1,16 @@
+<aura:component >
+	<p>
+    	This text is from State1 District1.
+    </p>	
+    <aura:handler name="LowPriorityComplaintFromTownship1" event="c:ComponentEventWithComplaintMsg" action="{!c.handlingLPComplaints}" phase="capture" />
+    
+    <aura:handler name="MediumPriorityComplaintFromTownship1" event="c:ComponentEventWithComplaintMsg" action="{!c.handlingMPComplaints}" phase="bubble" />
+    
+    <aura:handler name="HighPriorityComplaintFromTownship1" event="c:ComponentEventWithComplaintMsg" action="{!c.handlingHPComplaints}" phase="capture" />
+    <p>
+        <c:S1D1Township1 />    
+    </p>   
+    <p>
+        <c:S1D1Township2 />
+    </p>
+</aura:component>

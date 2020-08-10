@@ -1,0 +1,12 @@
+<apex:page standardController="Account">
+    <apex:form >
+        <apex:pageblock >
+            <apex:pageMessages ></apex:pageMessages>
+            <apex:pageblocksection >
+                <apex:inputField value="{! account.name}" />
+                <apex:inputfield value="{! account.industry}" />
+                <apex:commandButton action="{! save}" value="save!"/>
+            </apex:pageblocksection>
+        </apex:pageblock>  
+    </apex:form>  
+</apex:page>

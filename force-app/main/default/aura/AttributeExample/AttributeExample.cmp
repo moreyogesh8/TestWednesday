@@ -1,0 +1,14 @@
+<aura:component >
+    <aura:attribute name="whom" type="String" default="SFDCPanther" access="public" />
+    <aura:attribute name="age" type="Integer" default="24" access="private" />
+    <aura:attribute name="color" type="String[]" default="['red','green','yellow']" access="private" />
+    <aura:attribute name="colorList" type="List" default="['red','green','yellow']" access="private" />
+    <aura:attribute name="colorSet" type="Set" default="['red','green','blue']" access="private" />
+    
+    <lightning:input aura:id="test" label="Enter Age" />
+    Welcome {!v.whom} , Age : {!v.age} , Color - {!v.color[0]}  <br/>
+    {!v.colorList[0]} , {!v.colorSet[0]}
+    <br/> <br/>
+    
+    <lightning:button value="Component Method" label="Component Method" onclick="{!c.doclick}" />
+</aura:component>

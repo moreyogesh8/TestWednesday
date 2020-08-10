@@ -1,0 +1,4 @@
+<aura:component >
+    <aura:attribute name="customMessage" type="String" />
+    <c:HelloYogesh message="{!v.customMessage}" />
+</aura:component>

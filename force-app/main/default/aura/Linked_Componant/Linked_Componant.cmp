@@ -1,0 +1,5 @@
+<aura:component >
+	<h1>Componant Composition Example</h1>
+    <c:ComponentComposition_1 />
+    <c:ComponentComposition_2 whom="Test Test" />	
+</aura:component>

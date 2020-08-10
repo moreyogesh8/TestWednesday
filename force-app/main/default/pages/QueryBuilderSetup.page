@@ -1,0 +1,23 @@
+<apex:page controller="QueryBuilderSetupPageContrlr">
+    <apex:form id="theForm">
+        <apex:pageBlock >
+            <apex:pageblockSection >
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="Select Object :" />
+                    <apex:selectList id="chooseObj" value="{!objName}" size="1"
+                        onchange="retrieveFields ();">
+                        <apex:selectOptions value="{!AllObjects}"/>
+                    </apex:selectList>
+                </apex:pageblockSectionItem>
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="Fields :" />
+                    <apex:selectList id="chooseFields" value="{!fields}" size="5" multiselect="true">
+                        <apex:selectOptions value="{!ObjFields}"/>
+                    </apex:selectList>
+                </apex:pageblockSectionItem>
+            </apex:pageblockSection>
+        </apex:pageBlock>
+        <apex:actionFunction name="retrieveFields" reRender="chooseFields" />
+        <apex:commandButton value="Save" action="{!saveObj}"/>
+    </apex:form>
+</apex:page>

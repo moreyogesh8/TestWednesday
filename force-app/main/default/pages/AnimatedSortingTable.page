@@ -1,0 +1,38 @@
+<apex:page standardController="Opportunity" recordSetVar="opptyList">
+    <apex:stylesheet value="{!URLFOR($Resource.AnimatedSorter, 'style.css')}"/>
+    
+    <apex:form >
+        <table id="theTable" border="1" class="tableSorter">
+            <thead>
+                <tr>
+                	<th>Opportunity Name</th>
+                    <th>Account</th>
+                    <th>Stage</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<apex:repeat value="{!opptyList}" var="opp">
+                    <tr>
+                        <td>{!opp.Name}</td>
+                        <td>{!opp.Account.Name}</td>
+                        <td>{!opp.StageName}</td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </apex:form>
+    <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.AnimatedSorter,'tsort.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.AnimatedSorter,'tsort.min.js')}"/> 
+    <script type="text/javascript">
+	$(document).ready(function() {
+		$('#theTable').tableSort({
+        	animation: 'slideLeft',
+            speed: 400,
+            distance: '200px',
+            delay: 50
+        });
+        
+	});
+</script>
+</apex:page>

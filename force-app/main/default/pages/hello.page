@@ -1,0 +1,24 @@
+<apex:page sidebar="false" showHeader="true">
+  <apex:pageBlock title="A Block Title">
+        <apex:pageblockSection title="A Section Title">
+            I am three components deep!
+        </apex:pageblockSection>
+        <apex:pageblockSection title="A New Section">
+            This is another component!!!
+        </apex:pageblockSection>
+        <apex:pageblockSection title="Global Variable">
+            {! $User.FirstName & ' ' & $User.LastName}
+        </apex:pageblockSection>
+        <apex:pageBlockSection Title="Formulas in VisualForce">
+            <p>Todays Date is {! TODAY() }</p>
+            <p>Next week it will be {! TODAY() + 7}</p>
+            <p>The year today is {! Year(Today())}</p>
+            <p>Tommorrow will be aDay {! Day(Today() + 1)}</p>
+            <p>Lets find a maximum {! Max(9,1,2,8,3,7,4,6,5)}</p>
+            <p>Square root of 49 is {! SQRT(49) }</p>
+            <p>Is it contains true? {! Contains('salesforce.com','force.com')}</p>
+            <P>{! if ( Contains('salesforce.com','force.com'),'Yep', 'Nah')}</P>
+            <P>{! if ( Day(Today()) > 14 ,'After the 14th', 'On or Before the 14th')}</P>
+        </apex:pageBlockSection>
+   </apex:pageBlock> 
+</apex:page>
