@@ -1,0 +1,21 @@
+<apex:page controller="SalesDataController">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockTable value="{!Records}" var="data">
+                <apex:column headerValue="Name" value="{!data.recName}"/>
+                <apex:column headerValue="Status" value="{!data.recStatus}"/>
+                <apex:column headerValue="Revenue" value="{!data.recRev}"/>
+            </apex:pageBlockTable>
+            <apex:pageBlockSection >
+                <apex:datalist value="{!sObjList}" var="sObj_udemyYogAnk__">
+                    <apex:outputText value="{!sObj_udemyYogAnk__['Name']}"></apex:outputText> 
+                    <apex:outputText value="{if sObj_udemyYogAnk__ == 'Account.sObjectType'}">
+                    	
+                    </apex:outputText>>
+                </apex:datalist>>
+        	</apex:pageBlockSection>
+        </apex:pageBlock>
+        
+            
+    </apex:form>
+</apex:page>

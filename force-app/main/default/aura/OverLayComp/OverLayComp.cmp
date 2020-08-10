@@ -1,0 +1,47 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <lightning:OverlayLibrary aura:id="overlaycomp" />
+    <lightning:button value="Show Modal" label="Show Modal" onclick="{!c.showModal}" />
+    <br />
+    <lightning:navigation aura:id="navservice" />
+    <lightning:button value="navigate" label="navigate" onclick="{!c.donavigate}" />
+    <lightning:button name="Downdown" label="Downdown" onclick="{!c.doShow}" />
+    {!v.body}
+    
+    <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="Opportunity">
+        <div class="slds-box">
+            <lightning:outputField fieldName="Name" />
+            <lightning:outputField fieldName="Amount" />
+        </div>
+    </lightning:recordViewForm>
+    <lightning:recordEditForm
+            onload="{!c.handleLoad}"
+            onsubmit="{!c.handleSubmit}"
+            onsuccess="{!c.handleSuccess}"
+            recordId="{!v.recordId}"
+            objectApiName="Opportunity">
+            
+            <lightning:messages />
+
+            <lightning:inputField fieldName="Name" />
+            <lightning:inputField fieldName="Amount" />
+            <div class="slds-m-top_medium">
+                <lightning:button variant="brand" type="submit" name="save" label="Save" />
+            </div> 
+        </lightning:recordEditForm> 
+    		
+    <!-- <lightning:recordForm 
+				recordId="{!v.recordId}"
+                objectApiName="Opportunity"
+                layoutType="Full"
+                mode="view"/>
+    <aura:attribute name="fields" type="String[]" default="['Name','Amount','StageName']"/>
+    <lightning:recordForm
+				aura:id="myRecordForm"
+                recordId="{!v.recordId}"
+                objectApiName="Opportunity"
+                fields="{!v.fields}"
+                columns="2"
+                mode="edit"
+                onsubmit="{!c.handleSubmit}"/>-->
+    
+</aura:component>

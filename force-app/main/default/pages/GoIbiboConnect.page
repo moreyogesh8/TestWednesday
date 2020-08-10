@@ -1,0 +1,245 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false"
+                                            controller="GoIbiboConnectController">
+    <apex:stylesheet value="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <style>
+        .pbSubsection{
+            width:80%;
+            background-color: beige;
+            height: 80px;
+            margin-left: 10%;
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+            font-size: 14px;
+         }
+         .theTable {
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+            font-size: 14px;
+         }
+        #mainDiv {
+            column-count: 8;
+       }
+
+        button.accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 80%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+        margin-left: 10%;
+        }
+
+    button.accordion.active, button.accordion:hover {
+        background-color: #ddd;
+    }
+
+    button.accordion:after {
+        content: '\002B';
+        color: #777;
+        font-weight: bold;
+        float: right;
+        margin-left: 5px;
+    }
+
+    button.accordion.active:after {
+        content: "\2212";
+    }
+
+    div.panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+
+/*     .ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header { */
+/*         background: none !important; */
+/*         border: none !important; */
+/*         margin-top: -7px !important; */
+/*     } */
+
+/*     .ui-tabs ui-corner-all ui-widget ui-widget-content { */
+/*         border: none !important; */
+/*     } */
+    </style>
+    <apex:form id="theForm">
+        <apex:pageBlock >
+            <div class="pbSubsection">
+            <div id="mainDiv" style="width:100%; margin-top:6px; margin-left: 15px;">
+            <div style="display:block;" id="fromDiv">
+                <apex:outputLabel value="From: "/>
+                <apex:selectList id="chooseSource" value="{!source}" size="1">
+                    <apex:selectOptions value="{!SourceCodes}"/>
+                </apex:selectList>
+            </div>
+            <div style="display:block;" id="toDiv">
+                <apex:outputLabel value="To: "/>
+                    <apex:selectList id="chooseDestination" value="{!destination}" size="1">
+                        <apex:selectOptions value="{!DesCodes}"/>
+                    </apex:selectList>
+            </div>
+            <div style="display:block;" id="theDiv">
+                <p>Depart: <apex:outputPanel >
+                    <input html-type="text" id="departing" style="width:90px;">
+                </input>
+                </apex:outputPanel>
+                </p>
+            </div>
+            <div style="display:block;" id="adults">
+                <apex:outputLabel value="Adults (12+ Yrs): "/>
+                <apex:selectList id="adults" value="{!adults}" size="1">
+                    <apex:selectOption itemValue="0" itemLabel="0"/>
+                    <apex:selectOption itemValue="1" itemLabel="1"/>
+                    <apex:selectOption itemValue="2" itemLabel="2"/>
+                    <apex:selectOption itemValue="3" itemLabel="3"/>
+                    <apex:selectOption itemValue="4" itemLabel="4"/>
+                    <apex:selectOption itemValue="5" itemLabel="5"/>
+                </apex:selectList>
+            </div>
+            <div style="display:block;" id="children">
+                <apex:outputLabel value="Children (2-12 Yrs ): "/>
+                <apex:selectList id="children" value="{!children}" size="1">
+                    <apex:selectOption itemValue="0" itemLabel="0"/>
+                    <apex:selectOption itemValue="1" itemLabel="1"/>
+                    <apex:selectOption itemValue="2" itemLabel="2"/>
+                    <apex:selectOption itemValue="3" itemLabel="3"/>
+                    <apex:selectOption itemValue="4" itemLabel="4"/>
+                    <apex:selectOption itemValue="5" itemLabel="5"/>
+                </apex:selectList>
+            </div>
+            <div style="display:block;" id="infants">
+                <apex:outputLabel value="Infants (Below 2 yrs): "/>
+                <apex:selectList id="infants" value="{!infants}" size="1">
+                    <apex:selectOption itemValue="0" itemLabel="0"/>
+                    <apex:selectOption itemValue="1" itemLabel="1"/>
+                    <apex:selectOption itemValue="2" itemLabel="2"/>
+                    <apex:selectOption itemValue="3" itemLabel="3"/>
+                    <apex:selectOption itemValue="4" itemLabel="4"/>
+                    <apex:selectOption itemValue="5" itemLabel="5"/>
+                </apex:selectList>
+            </div>
+            <div style="display:block;" id="class">
+                <apex:outputLabel value="Class: "/>
+                <apex:selectList id="pClass" value="{!pClass}" size="1">
+                    <apex:selectOption itemValue="E" itemLabel="Economy"/>
+                    <apex:selectOption itemValue="B" itemLabel="Business"/>
+                </apex:selectList>
+            </div>
+            <div style="display:block;" id="domestic">
+                <apex:outputLabel value="Domestic"/>
+                <apex:inputCheckbox value="{!isDomestic}" label="Domestic"/>
+            </div>
+             <div style="display:block; float: right; margin-right: -50px;" id="search">
+                <apex:commandButton value="Search" onclick="formatDate (); return false;"/>
+            </div>
+            </div>
+            </div>
+            <apex:outputPanel id="thePanel">
+                <apex:repeat value="{!wrpList}" var="wprObj">
+                    <button class="accordion" type="button">
+                        <span style="display: inline-block; width: 100px;"> {!wprObj.airline} </span>
+                        <span style="margin-left:5%; display: inline-block; width: 15%;">
+                            {!wprObj.duration}</span>
+                        <span style="margin-left:5%;display: inline-block; width: 15%;">
+                            {!wprObj.stops}{!IF(wprObj.stops=="0", 'Non-stop', wprObj.stops&' stops')}</span>
+                        <span style="margin-left:5%;display: inline-block; width: 15%;">
+                            ₹ {!wprObj.Fare.totalfare}</span>
+                     </button>
+                    <div class="panel" style="margin-left: 10%; width: 80%;">
+                        <div id="tabs" class="tabs" style="width: 80%;">
+                            <ul>
+                                <li><a href="#tabs-1">Flight Info</a></li>
+                                <li><a href="#tabs-2">Fare Details</a></li>
+                                <li><a href="#tabs-3">Baggage Info</a></li>
+                            </ul>
+                        <div id="tabs-1" class="theTable">
+                            <p>{!source} {!wprObj.deptime} </p>
+                            <p>{!wprObj.duration}</p>
+                            <p>{!destination} {!wprObj.arrTime}</p>
+                        </div>
+                        <div id="tabs-2">
+                            <table id="fateTable" border="1px;" style="width: 80%;"
+                                class="theTable">
+                                <tr>
+                                    <td>Base Fare</td>
+                                    <td>₹ {!wprObj.Fare.totalbasefare}</td>
+                                </tr>
+                                <tr>
+                                    <td>Taxes and Fees</td>
+                                    <td>₹ {!wprObj.Fare.totaltaxes}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Fare</td>
+                                    <td>₹ {!wprObj.Fare.totalfare}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="tabs-3">
+                            <table id="baggageInfo" border="1px;" style="width: 80%;"
+                                class="theTable">
+                                <tr>
+                                    <td>Check-In Baggage</td>
+                                    <td>Hand Baggage</td>
+                                </tr>
+                                <tr>
+                                    <td>15 Kgs</td>
+                                    <td>7 Kgs</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </apex:repeat>
+
+            </apex:outputPanel>
+        </apex:pageBlock>
+        <apex:actionfunction name="returnResult" action="{!fetchData}" rerender="theForm"
+            oncomplete="loadScript ();">
+            <apex:param name="formatDate" value="" />
+        </apex:actionfunction>
+    </apex:form>
+    <apex:includeScript value="https://code.jquery.com/jquery-1.12.4.js"/>
+    <apex:includeScript value="https://code.jquery.com/ui/1.12.1/jquery-ui.js"/> 
+     <script type="text/javascript">
+        var j = jQuery.noConflict();
+        j(document).ready(function() {
+            j("#departing").datepicker();
+            loadScript ();
+        });
+        
+        function formatDate () {
+            udemyYogAnk.GoIbiboConnectController.formatDate (j("#departing").val(),
+                function(result,event) {
+                if (event.status){
+                    //alert (result);
+                    returnResult (result);
+                }
+                }, {escape:true})
+        }
+        function loadScript () {
+            var acc = document.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].onclick = function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight){
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                    displayTabs ();
+                }
+            }
+        }
+
+        // Tabpanel script
+        function displayTabs () {
+            j ( ".tabs" ).tabs();
+        }
+     </script>
+</apex:page>

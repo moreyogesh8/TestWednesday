@@ -1,0 +1,21 @@
+<apex:page controller="ContactDataController" >
+    <apex:form id="theForm">
+        <apex:pageBlock >
+            <apex:pageBlockButtons location="Top">
+                <apex:commandButton action="{!processSelected}" value="Delete" reRender="theForm" />
+            </apex:pageBlockButtons>
+            <!--<apex:pageBlockButtons location="bottom">
+            	<apex:commandButton action="{!processSelected}" value="Delete" />
+            </apex:pageBlockButtons> -->   
+            <apex:pageMessages id="msg"/>
+        	<apex:pageBlockTable value="{!ContactList}" var="c" id="Table">
+                <apex:column >
+                    <apex:inputCheckbox value="{!c.selected}" />
+                </apex:column>
+                <apex:column headerValue="FirstName" value="{!c.con.firstname}"/>
+                <apex:column headerValue="LastName" value="{!c.con.lastname}"/>
+                <apex:column headerValue="EamilId" value="{!c.con.email}"/>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+    </apex:form>    
+</apex:page>

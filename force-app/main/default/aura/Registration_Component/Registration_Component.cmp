@@ -1,0 +1,75 @@
+<aura:component controller="SaveRegistrationDetails" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" >
+    <aura:attribute name="abc" type="String" default="false" />
+    <aura:attribute name="nameofStudent" type="String" default=""/>
+    <aura:attribute name="ParentsName" type="String" default="" />
+    <aura:attribute name="Standerd" type="String" default="" />
+    <aura:attribute name="NofHOursStudy" type="String[]" default=" ,Less Than 1 Hour, In between 1 to 4 Hours,
+                                                                  In Between 4 to 8 Hours, More than 8 hours" />
+    <aura:attribute name="usersResponse1" type="String" default="" />
+    <aura:attribute name="MobileNumber" type="Integer" default="" />
+    <aura:attribute name="HaveYouTakenCourseBefore" type="Boolean" default="false" />
+    <aura:attribute name="AreYouInterestedInOnlineCourse" type="Boolean" />
+    <aura:attribute name="checkBoxValue" type="Boolean" default="false"/>
+    <aura:attribute name="PageHeading" type="String" default="Registration Form For Student"/>
+    <aura:attribute name="EducationDetailsList" type="List" default="[]" />
+    <aura:attribute name="RegForm" type="Registration_Form__c" default="{'sobjectType': 'Registration_Form__c'}" />
+    <aura:attribute name="RegistrationRecordId" type="String" />
+    <aura:attribute name="isDataSubmitted" type="Boolean" default="false" />
+    
+    <div class="slds-m-top_xx-large">	
+        <div class="slds-page-header">
+            <div class="slds-align_absolute-center">
+                <div class="slds-text-heading_large">
+                    <!--Value of attribute abc -> {!v.abc} -->
+                    {!v.PageHeading}
+                 </div>     
+             </div>    
+        </div>
+    </div>   
+   	<div class="slds-size_3-of-8">     
+        <lightning:input label="Enter your name" name="StudentName" value="{!v.RegForm.Name}" />
+        <lightning:input label="Enter parents name" name="ParentName" value="{!v.RegForm.udemyYogAnk__Students_Parent_Name__c}" />
+        <lightning:input label="Which Class do you Study" name="Standerd" value="{!v.RegForm.udemyYogAnk__Which_class__c}" />
+        <lightning:select label="How many hours doyou study in a day?" name="hrsStudy" value="{!v.RegForm.udemyYogAnk__Study__c}">
+            <!-- <option value="red">1</option>
+            <option value="green">2</option>
+            <option value="yellow">3</option>
+            <option value="blue">4</option> -->
+            <aura:iteration items="{!v.NofHOursStudy}" var="hrs">
+                <option value="{!hrs}" text="{!hrs}"/>
+            </aura:iteration>    
+        </lightning:select>
+        <lightning:input label="Enter Mobile Nummber" name="mobileNumber" type="tel" value="{!v.RegForm.udemyYogAnk__Mobile_Number__c}"/>
+        
+        <aura:iteration items="{!v.EducationDetailsList}" var="item" indexVar="index">
+            <c:Add_Educational_Details RegistrationRecordId="{!v.RegistrationRecordId}" EducationalDetailListInnerComponent="{!v.EducationDetailsList}" indexNo="{!index}"/>
+        </aura:iteration>
+        <lightning:button iconName="utility:add" variant="border-filled" label="Add Education Details" onclick="{!c.addDetails}"></lightning:button>
+            
+        <lightning:input aura:id="checkBox" type="checkbox" onchange="{!c.onClickCheckBox}" label="Are you available on weekends to attend classes?" name="firstcheckbox" value="{!v.RegForm.udemyYogAnk__Available__c}"/>
+        <aura:if isTrue="{!v.checkBoxValue}">
+            <li>Happy Learning!!</li>
+        </aura:if> 
+        <lightning:button label="submit" onclick="{!c.doSubmit}"></lightning:button>
+        
+        <aura:if isTrue="{!v.isDataSubmitted}">
+        		<div class="demo-only" style="height: 24rem;">
+                    <section role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt" aria-modal="true">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 class="slds-text-heading_medium" id="prompt-heading-id">Success</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+                                <p>Details Saved Successfully</p>
+                            </div>
+                        </div>
+                    </section>
+  					<div class="slds-backdrop slds-backdrop_open"></div>
+				</div>
+        </aura:if>
+    </div>        
+</aura:component>
