@@ -5,7 +5,7 @@ trigger AccountAddressTrigger on Account (before insert, before update) {
         System.debug('acc - '+acc);                   
     	if(acc.udemyYogAnk__Match_Billing_Address__c == true && !String.isBlank(acc.BillingPostalCode)){
             acc.ShippingPostalCode = acc.BillingPostalCode;
-            System.debug('Both conditions are true'+acc.udemyYogAnk__Match_Billing_Address__c+':'+acc.BillingPostalCode);
+            System.debug('Both conditions are true true true git git'+acc.udemyYogAnk__Match_Billing_Address__c+':'+acc.BillingPostalCode);
 			accList.add(acc);    
         }                   
 	}
