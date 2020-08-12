@@ -21,6 +21,12 @@ node {
     stage('checkout source') {
         // when running in multi-branch job, one must issue this command
         checkout scm
+	    result = sh (script: "git log -1 | grep '\\[ci skip\\]'", returnStatus: true) 
+		  if (result != 0) {
+			echo "performing build..."
+		  } else {
+			echo "not running..."
+		  }
     }
 
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
